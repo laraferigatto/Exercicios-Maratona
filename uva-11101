@@ -1,0 +1,93 @@
+#include <bits/stdc++.h>
+#define inf 0x3f3f3f
+using namespace std;
+typedef pair<int, int> ii;
+int dist[2010][2010];
+
+int main()
+{
+    vector<ii> pontos;
+    queue<ii> q;
+    // map<ii, int> dist;
+    //int dist[2010][2010];
+    int linha, coluna;
+    int p, a, b;
+    int maior = 0;
+
+
+    while(scanf("%d", &p), p)
+    {
+        for (int i = 0; i < 2010; i++)
+        {
+            for (int j = 0; j < 2010; j++)
+            {
+                dist[i][j] = inf;
+            }
+
+
+        }
+        for (int i = 0; i < p; ++i)
+        {
+            scanf("%d%d", &a, &b);
+            maior = max(maior, a);
+            maior = max(maior, b);
+            dist[a][b] = 0;
+            q.push(ii(a,b));
+
+        }
+        scanf("%d", &p);
+        for (int i = 0; i < p; ++i)
+        {
+            scanf("%d%d", &a, &b);
+            maior = max(maior, a);
+            maior = max(maior, b);
+            //dist[a][b] = -1;
+            pontos.push_back(ii(a,b));
+        }
+        linha = maior+10;
+        coluna = maior+10;
+        while(!q.empty())
+        {
+            int l, c;
+            l = q.front().first;
+            c = q.front().second;
+            q.pop();
+            if(l+1 < linha /*&& dist[l+1][c] != -1*/ && dist[l+1][c] == inf)
+            {
+                dist[l+1][c] = dist[l][c] +1;
+                q.push(ii(l+1,c));
+            }
+            if(l-1 > 0 /*&& dist[l-1][c] != -1*/ && dist[l-1][c] == inf)
+            {
+                dist[l-1][c] = dist[l][c] +1;
+                q.push(ii(l-1,c));
+            }
+            if(c+1 < coluna /*&& dist[l][c+1] != -1*/ && dist[l][c+1] == inf)
+            {
+                dist[l][c+1] = dist[l][c] +1;
+                q.push(ii(l,c+1));
+            }
+            if(c-1> 0 /*&& dist[l][c-1] != -1*/ && dist[l][c-1] == inf)
+            {
+                dist[l][c-1] = dist[l][c] + 1;
+                q.push(ii(l,c-1));
+            }
+
+        }
+        int d = inf;
+        for (int i = 0; i < p; ++i)
+        {
+            d = min(d, dist[pontos[i].first][pontos[i].second]);
+        }
+        if(!d)d++;
+        printf("%d\n", d);
+        pontos.clear();
+    }
+
+
+
+
+
+
+
+}
