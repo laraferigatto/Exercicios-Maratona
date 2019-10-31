@@ -1,0 +1,87 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define MAXN 1000005
+map <int, vector<int> > v;
+vector<int>fre;
+vector<int> topological_sorting(int n)
+{
+    queue<int> q;
+    for (int i = 0; i < n; i++)
+        if (!fre[i])
+            q.push(i);
+
+    vector<int> l;    
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();      
+        l.push_back(u);       
+        for (int i = 0; i < v[u].size(); i++) 
+        {
+            fre[v[u][i]]--;
+            if (!fre[v[u][i]])
+                q.push(v[u][i]);
+        }
+    }
+    return l;
+}
+
+
+int numberofPaths(int source, int destination, int n)
+{
+    fre.assign(20000,0);
+    vector<int> s = topological_sorting(n);    
+    int dp[20000] = { 0 };    
+    dp[destination] = 1;   
+    for (int i = s.size() - 1; i >= 0; i--) 
+    {
+        for (int j = 0; j < v[s[i]].size(); j++) 
+        {
+            dp[s[i]] += dp[v[s[i]][j]];
+        }
+    }
+
+    return dp[source];
+}
+
+
+int main()
+{
+    int n, t, a;
+    vector<int> death;
+    int k = 0;
+    while(scanf("%d", &n) == 1)
+    {
+        if(k > 0) puts("");
+        for (int i = 0; i < n; ++i)
+        {
+            scanf("%d", &t);
+            if(!t)
+            {
+                death.push_back(i);
+            }
+            else
+            {
+                for (int j = 0; j < t; ++j)
+                {
+                    scanf("%d", &a);
+                    v[i].push_back(a);
+                }
+            }
+        }
+        int source, destination;
+        source = 0;
+        int ans = 0;
+        for (int j = 0; j < death.size(); ++j)
+        {
+            destination = death[j];
+            ans+= numberofPaths(source, destination, n);
+        }
+        printf("%d\n", ans);   
+       
+        v.clear();
+        death.clear();
+        k++;
+
+    }
+
+}
