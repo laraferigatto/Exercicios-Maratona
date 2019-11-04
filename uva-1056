@@ -1,0 +1,81 @@
+#include <bits/stdc++.h>
+#define inf 0x3f3f3f3
+using namespace std;
+
+int main()
+{
+    int V, E;
+    int k = 0, net = 1;
+    string a, b;
+    map <string, int> p;
+    int dist[100][100];
+    while(scanf("%d%d", &V, &E), V || E)
+    {
+        for (int i = 0; i < 100; ++i)
+        {
+            for (int j = 0; j <100; ++j)
+            {
+               dist[i][j]= inf;
+            }
+        }
+        for (int i = 0; i < E; ++i)
+        {
+            cin >> a >> b;
+            if(p.find(a) == p.end())
+            {
+                p[a] = k;
+                k++;
+            }
+            if(p.find(b) == p.end())
+            {
+                p[b] = k;
+                k++;
+            }
+            dist[p[a]][p[b]] = 1;
+            dist[p[b]][p[a]] = 1;
+
+        }
+        for (int i = 0 ; i < V; i++)
+        {
+            dist[i][i]= 0;
+        }
+        for(int u = 0; u < V; u++)
+        {
+            for(int i = 0; i < V; i++)
+            {
+                for(int j = 0; j < V; j++)
+                {
+                    dist[i][j] = min(dist[i][j], dist[i][u] + dist[u][j]);
+
+                }
+            }
+        }
+
+        int ans = 0;
+        bool flag = 0;
+        for (int var = 0; var < V; ++var)
+        {
+            for (int m = var+1; m < V; ++m)
+            {
+                if(dist[var][m] != inf)
+                {
+                    ans = max(ans, dist[var][m]);
+                }
+                else
+                {
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag) break;
+        }
+        printf("Network %d: ", net);
+        if(flag) printf("DISCONNECTED\n");
+        else printf("%d\n", ans);
+        puts("");
+        k = 0;
+        p.clear();
+        net++;
+    }
+
+}
