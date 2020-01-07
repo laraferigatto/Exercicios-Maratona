@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+int mp[110];
+int main()
+{
+	vector<int> primos;
+	for(int i = 2; i <= 100; i++)
+	{
+		if(!mp[i])
+		{
+			primos.push_back(i);
+			mp[i] = i;
+		}
+		for(int j = 0; j < primos.size() && primos[j] <= mp[i] && i*primos[j] <= 100; j++)
+		{
+			mp[primos[j]*i] = primos[j];
+		}
+		
+	}
+	int n;
+	map<int,int> ans;
+	map<int,int>::iterator it;
+	while(scanf("%d", &n), n)
+	{
+		for(int i = 2; i <=n; i++)
+		{
+			int aux = i;
+			
+			while(aux != 1)
+			{
+				
+				ans[mp[aux]]++;
+				aux = aux/mp[aux];
+			} 
+		}
+		printf("%3d! =",n); 		
+		int j;		
+		for(j = 0, it = ans.begin(); it != ans.end(); it++, j++)
+		{
+			if(j == 15) 
+			{
+				puts("");
+				printf("      ");
+				j = 0;
+			}
+			printf("%3d", it->second);
+			
+		}
+		puts("");
+		ans.clear();
+	}
+	
+}
