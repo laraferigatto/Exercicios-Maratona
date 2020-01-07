@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> primos;
+int mp[61000];
+
+int main()
+{
+    long long int n;
+
+    for(long long i = 2; i <= 60000; i++)
+    {
+        if(!mp[i])
+        {
+            primos.push_back(i);
+            mp[i] = i;
+        }
+        for(long long j = 0; j < primos.size() && primos[j] <= mp[i]  && i*primos[j] <= 60000; j++)
+        {
+            mp[primos[j]*i] = primos[j];
+        }
+    }
+    vector<long long int> fatores;
+    while(scanf("%lld", &n), n)
+    {
+        printf("%lld", n);
+        if(n < 0)
+        {
+            fatores.push_back(-1);
+            n = n*-1;
+        }
+        long long int i, fp;
+        i = 0;
+        fp = primos[i];
+        while(fp*fp <= n)
+        {
+            while(n%fp == 0)
+            {
+                fatores.push_back(fp);
+                n = n/fp;
+            }
+            fp = primos[++i];
+        }
+        if(n!= 1)
+            fatores.push_back(n);
+        printf(" = ");
+        for (i = 0; i < fatores.size()-1; ++i)
+        {
+            cout << fatores[i] << " x ";
+        }
+        printf("%lld\n", fatores[i]);
+        fatores.clear();
+    }
+
+
+
+
+
+}
