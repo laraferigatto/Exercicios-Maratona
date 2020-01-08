@@ -1,0 +1,98 @@
+#include <bits/stdc++.h>
+using namespace std;
+int anM, a1M, an, a1;
+int n, nEnd = 0, a1End, anEnd;
+bool flag = 0;
+void fun(int i, int sn)
+{
+    if(i%2 != 0)
+    {
+        flag = 1;
+        a1M = i/2;
+        anM = a1M + 1;
+        n = (sn*2)/i;
+        an = anM + ((n/2)-1);
+        a1 = a1M - ((n/2)-1);
+        if(a1 < 0)
+        {
+            int aux = (a1*-1)*2+1;
+            a1 = a1 + aux;
+            n = n - aux;
+        }
+        else if(a1 == 0)
+        {
+            a1++;
+            n--;
+        }
+    }
+    if(nEnd < n)
+    {
+        a1End = a1;
+        anEnd = an;
+        nEnd = n;
+    }
+
+//    if(i%2 != 0)
+//    {
+//        flag = 1;
+//        n = (sn)/i;
+//        if(n%2 != 0)
+//        {
+//            an = i + ((n/2));
+//            a1 = i - ((n/2));
+//        }
+//        else
+//        {
+//            an = i + ((n/2)-1);
+//            a1 = i - ((n/2)-1);
+//        }
+//    }
+//    if(nEnd < n)
+//    {
+//        a1End = a1;
+//        anEnd = an;
+//        nEnd = n;
+//    }
+
+
+
+}
+
+int main()
+{   
+	freopen("in", "r", stdin);
+	freopen("on", "w", stdout);
+    int sn;
+    while(true)
+    {
+        scanf("%d", &sn);
+        if(sn == -1) break;
+
+        int raiz = sqrt(sn);
+        flag = 0;
+        nEnd = n =0;
+        bool prime = 1;
+        for(int i = 2; i <= raiz; i++)
+        {
+            if(sn%i == 0)
+            {
+                //cout << i << " ";
+                prime = 0;
+                fun(i,sn);
+                if(i != sn/i)
+                {
+                    //cout << sn/i << " ";
+                    fun(sn/i, sn);
+                }
+            }
+
+        }
+
+        if(prime)fun(sn,sn);
+        if(flag)
+            printf("%d = %d + ... + %d\n", sn, a1End, anEnd);
+        else  printf("%d = %d + ... + %d\n", sn, sn, sn);
+
+    }
+
+}
