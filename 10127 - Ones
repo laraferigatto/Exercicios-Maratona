@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    int ans = 3;
+    int n;
+    while(cin >> n)
+    {
+        ans = 3;
+        int rest = 111%n, aux;
+        if(rest != 0)
+        {
+            while(true)
+            {
+                ans++;
+                rest = ((rest*10)%n + 1%n)%n;
+                if(rest == 0) break;
+            }
+
+        }
+        cout << ans << endl;;
+
+    }
+
+}
